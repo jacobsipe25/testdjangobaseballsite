@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% block content %}
+    <h2>Players</h2>
+    <table>
+      <tr>
+      <th>Player Name</th>
+      <th>Player Number</th>
+      <th>Batting Avg</th>
+      <th>Team</th>
+<th>Walks</th>
+    </tr>
+     <tr>
+       <td>{{player.player_name}}</td>
+       <td>{{player.player_name}}</td>
+       <td>{{player.batting_avg}}</td>
+       <td>{{player.team}}</td>
+       <td>{{player.num_walks}}</td>
+     </tr>
+    </table>
+{% endblock %}
