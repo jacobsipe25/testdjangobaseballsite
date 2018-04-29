@@ -64,7 +64,6 @@ def upload_csv(request):
             data_dict["player_name"] = fields[0]
             data_dict["player_number"] = fields[1]
             data_dict["team"] = fields[2]
-            print (fields[2])
             # data_dict["league"] = fields[3]
             # data_dict["games"]=fields[4]
             # data_dict["plate_appearances"]=fields[5]

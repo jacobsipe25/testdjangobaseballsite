@@ -16,6 +16,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMP_DIR=os.path.join(BASE_DIR,"templates")
 STATIC_DIR = os.path.join(BASE_DIR,"static")
+LOGIN_REDIRECT_URL="home"
 # print (TEMP_DIR)
 
 # Quick-start development settings - unsuitable for production
@@ -85,7 +86,7 @@ DATABASES = {
         'USER': "root",
         'PASSWORD': 'sipe',
         'HOST': '127.0.0.1',
-        'PORT': '3306', 
+        'PORT': '3306',
     }
 }
 

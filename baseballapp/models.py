@@ -1,5 +1,6 @@
 from django.db import models
 from django.urls import reverse
+
 # from model import CsvModel didn't work
 
 class Player(models.Model):
@@ -8,10 +9,10 @@ class Player(models.Model):
     # obp=models.FloatField(blank=True)
     BRAVES="Braves"
     TIGERS="Tigers"
-    TEAM_CHOICES=(
+    TEAM_CHOICES=[
     (BRAVES,'Braves'),
     (TIGERS,'Tigers'),
-    )
+    ]
 
     team=models.CharField(choices=TEAM_CHOICES,max_length=600)
     # LEAGUE_CHOICES=(("AL","American League"),("NL","National League"),("MLB","All"))
