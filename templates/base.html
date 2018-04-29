@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load staticfiles %}
+{% load static %}
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
@@ -17,61 +18,49 @@
         <link rel="stylesheet" href="{% static 'base.css' %}">
 
         {# Fonts#}
-
+        <link href="https://fonts.googleapis.com/css?family=Do+Hyeon" rel="stylesheet">
 
 
 </head>
+{% load static %}
 <body>
-  <nav class="navbar navbar-default techfont custom-navbar">
-    <div class="container">
-      <ul class="nav navbar-nav">
-        <li><a class='navbar-brand bigbrand' href="{% url 'home' %}">Baseball Stats App</a></li>
-        <li><a href="{% url "aboutus"%}">About Us</a></li>
-        <li><a href="https://www.github.com">Github</a></li>
-        <li><a href="https://www.linkedin.com">LinkedIn</a></li>
-        <li><a href="{% url "upload_csv"%}">Upload CSV</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="{% url "home"%}"> Baseball Stats</a>
+    </div>
+    <ul class="nav navbar-nav">
+      <li><a href="{% url "player_list" %}">Player List</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url "player_create" %}">Create A Player</a></li>
+      <li>
+<a href="{% url "upload_csv" %}">Upload CSV File</a>
+      </li>
+      {% endif %}
+    </ul>
+    <ul class="nav navbar-nav navbar-right">
 
-      <ul class="nav navbar-nav navbar-right">
-        {% if user.is_authenticated %}
-        <li>
-          <a href="https://espn.com" >ESPN</a>
-        </li>
-
-        <li>
-          <a href="#">Drafts</a>
-        </li>
-        <li>
-          <a href="{% url "logout" %}" >Log out</a>
-        </li>
-
-        <li>
-          <p class="redtext">Welcome: {{ user.username }}</p>
-        </li>
-          {% else %}
-          <li><a class='nav navbar-right' href="{% url 'login' %}" ><span class="glyphicon glyphicon-user"></span></a></li>
-      </ul>
-      <p> You aren't logged in </p>
-              {% endif %}
-</div>
+      {% if user.is_authenticated %}
+      <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      {% else %}
+      <li><a href="{% url "signup" %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% endif %}
+    </ul>
+  </div>
 </nav>
+
 
 
 
         <div class="content container">
           <div class="row">
             <div class="col-xs-12">
-              {% if user.is_authenticated %}
-              <div class="redtext">
-               <a href="{% url "player_create"}">Create A Player</a><br>
-               <a href="{% url "player_list"}">View All Players</a>
-             </div>
-               {% endif %}
+
               {% block content %}
               {% endblock %}
             </div>
           </div>
-        </div>
+          </div>
 </body>
 </html>
