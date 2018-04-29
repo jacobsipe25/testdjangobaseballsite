@@ -4,6 +4,8 @@ from baseballapp import views
 from django.contrib.auth import views as auth
 from django.conf.urls import url
 from baseballapp.models import Player
+from django.conf.urls.static import static
+from django.conf import settings
 urlpatterns = [
     path(r'login/',auth.login,name="login"),
     path(r"logout/",auth.logout,name="logout"),
@@ -14,4 +16,8 @@ urlpatterns = [
     url(r'^player/delete/(?P<pk>\d+)/$',views.PlayerDeleteView.as_view(),name="delete"),
     url(r'^upload/csv/$', views.upload_csv, name='upload_csv'),
 
+
+
 ]
+
+urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT )
