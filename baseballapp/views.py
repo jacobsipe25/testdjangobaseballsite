@@ -92,7 +92,7 @@ def upload_csv(request):
         messages.error(request,"Unable to upload file. "+repr(e))
 
     return redirect(reverse("player_list"))
-def printthechoices():
-    fields=Player._meta.get_field("team").choices
-    return fields
-print (printthechoices())
+# def printthechoices():
+#     fields=Player._meta.get_field("team").choices
+#     return fields
+# print (printthechoices())
