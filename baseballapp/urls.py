@@ -3,7 +3,7 @@ from django.urls import path,include
 from baseballapp import views
 from django.contrib.auth import views as auth
 from django.conf.urls import url
-from baseballapp.models import Player
+from baseballapp.models import *
 from django.conf.urls.static import static
 from django.conf import settings
 urlpatterns = [
@@ -15,7 +15,9 @@ urlpatterns = [
     url(r'edit/(?P<pk>\d+)/$',views.PlayerUpdateView.as_view(),name="player_edit"),
     url(r'^player/delete/(?P<pk>\d+)/$',views.PlayerDeleteView.as_view(),name="delete"),
     url(r'^upload/csv/$', views.upload_csv, name='upload_csv'),
-
+    url(r'team/(?P<pk>\d+)/$',views.TeamDetail.as_view(),name="team_detail"),
+    url(r'^team/new',views.TeamUpload,name="team_create"),
+    url(r'theteams/',views.TeamList,name="team_list"),
 
 
 ]

@@ -3,7 +3,7 @@ from django.contrib.auth import login,authenticate
 from django.contrib.auth.forms import UserCreationForm
 from baseballapp.models import *
 from django.views.generic import ListView, CreateView, DetailView,DeleteView,UpdateView
-from baseballapp.forms import PlayerForm
+from baseballapp.forms import PlayerForm,TeamForm
 from django.urls import reverse,reverse_lazy
 import logging
 from django.contrib import messages
@@ -25,6 +25,25 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
+def TeamList(request):
+        player_list=Team.objects.all()
+        #render takes request, aka get or post, template, context which is a dict
+        #of params you pass and call by key
+        return render(request,"baseballapp/team_list.html",{"team_list":team_list})
+def TeamUpload(request):
+    if request.method=="POST":
+        form=PlayerForm(request.POST,request.FILES)
+        if form.is_valid():
+            newstuff=form.save(commit=False)
+            newstuff.logo=request.FILES["logo"]
+            newstuff.save()
+            # newimage=Player(,player_name)
+
+
+            return redirect(reverse("team_list"))
+    else:
+        form=TeamForm()
+    return render(request,"baseballapp/player_form.html",{"form":form})
 def PlayerUpload(request):
     if request.method=="POST":
         form=PlayerForm(request.POST,request.FILES)
@@ -59,6 +78,13 @@ def PlayerList(request):
 #     return render(request,"baseballapp/player_form.html",{"form":form})
 class PlayerDetail(DetailView):
     model=Player
+# class CreateTeam(CreateView):
+#     login_url="/login/"
+#     redirect_field_name="baseballapp/team_detail.html"
+#     form_class=Form
+#     model=Team
+class TeamDetail(DetailView):
+    model=Team
 class PlayerUpdateView(UpdateView):
     redirect_field_name="baseballapp/player_detail.html"
     form_class=PlayerForm

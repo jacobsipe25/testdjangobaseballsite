@@ -27,13 +27,15 @@ class Player(models.Model):
         return self.player_name
 class Team(models.Model):
     team_name=models.CharField(max_length=200)
-    logo=models.ImageField(upload_to="images")
+    logo=models.ImageField(upload_to="teams/",blank=True,default="teams/noteam.jpg")
     user_team=User.username
     players=models.ManyToManyField(Player)
     def __str__(self):
         return self.team_name
     def get_absolute_url(self):
          return reverse("team_detail",kwargs={"pk":self.pk})
+    def __str__(self):
+         return self.team_name
 
 class Game(models.Model):
     location=models.CharField(max_length=200)

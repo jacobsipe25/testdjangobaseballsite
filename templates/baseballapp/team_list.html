@@ -1,33 +1,40 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div style="background-color:red;">
 
-    <h2>Players</h2>
-    <table>
-      <tr>
-      <th>Player Name</th>
-      <th>Player Number</th>
-      <th>Batting Avg</th>
-      <th>Team</th> </tr>
-     {% for p in player_list %}
+
+    <h2 style="text-align:center">Players</h2>
+    <table class="table">
+<thead class="thead-dark">
+    <tr>
+      <th scope="col">Team Name</th>
+      <th scope="col">Logo</th>
+    <th scope="col">User</th>
+    <th>Players</th>
+  </tr>
+  </thead>
+  {% if team_list %}
+     {% for p in team_list %}
      <tr>
        <td>
-         <a href="{% url "player_detail" p.id %}">   {{p.player_name}}</a>
+         <a href="{% url "team_detail" p.id %}">   {{p.team_name}}</a>
 </td>
-       <td>{{p.player_name}}</td>
-       <td>{{p.batting_avg}}</td>
-       <td>{{p.team}}</td>
-       <td> <button type="button" class="btn-info">
-      <a href="{% url "delete" p.id %}">Delete Me</a>
+       <td class="playerimage">
+<a href="{{p.logo.url}}">  <img src="{{p.logo.url}}" alt="{{p.team_name}}" style="height:100px;width:100px;border-radius:10px;"></a>
+    </td>
+    <td>{{p.user_team}}</td>
+    <td>{{p.players}}</td>
+       <td> <button type="button" class="btn-info leftmarginbutton">
+      <a  href="{% url "delete" p.id %}">Delete Me</a>
         </button></td>
         <td>
-        <button type="button" class="btn-success">
+        <button type="button" class="btn-success leftmarginbutton">
       <a href="{% url "player_edit"  p.id %}">Update</a>
         </button>
         </td>
      </tr>
      {% endfor %}
     </table>
-</div>
+    {% endif%}
+
 {% endblock %}
