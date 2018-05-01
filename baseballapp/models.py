@@ -4,13 +4,13 @@ from django.urls import reverse
 
 # from model import CsvModel didn't work
 class Player(models.Model):
-    player_name=models.TextField(max_length=200)
+    player_name=models.TextField(max_length=200,help_text="Player's Name")
     # batting_avg=models.FloatField()
     # obp=models.FloatField(blank=True)
     # LEAGUE_CHOICES=(("AL","American League"),("NL","National League"),("MLB","All"))
     # league=models.CharField(choices=LEAGUE_CHOICES,max_length=600)
     player_number=models.IntegerField()
-    image=models.ImageField(upload_to="playerimage")
+    imgfile=models.ImageField(upload_to="sample/",blank=True,null=True,default="sample/noimage.png")
     # games=models.IntegerField(null=True)
     # plate_appearances=models.IntegerField(null=True)
     # at_bats=models.IntegerField(null=True)

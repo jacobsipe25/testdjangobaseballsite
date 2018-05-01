@@ -22,3 +22,24 @@ body {
   background-size: cover;
   -o-background-size: cover;
 }
+.leftmarginbutton{
+  margin-left: 10px;
+}
+.whiterounded{
+    border-radius: 50px;
+    background: #BEEEEF;
+    padding: 20px;
+}
+p,h1,h2,h3,h4,h5,h6{
+  font-family: 'Do Hyeon';
+}
+td,th{
+  text-align: center;
+  padding: 5px;
+  font-family: 'Do Hyeon';
+}
+.playerimage{
+  height:10px;
+  width:10px;
+  border-radius: 10px;
+}

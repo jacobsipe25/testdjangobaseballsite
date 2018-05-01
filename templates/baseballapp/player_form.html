@@ -1,9 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>New Player</h1>
-<form class="player-form" method="post">
-  {% csrf_token %}
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
   {{form.as_p}}
-<button type="submit" class="save btn btn-default" name="button">Save</button>
-</form>
+    <button type="submit">Upload</button>
+  </form>
+
+  <p><a href="{% url 'home' %}">Return to home</a></p>
 {% endblock %}

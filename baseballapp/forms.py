@@ -5,7 +5,7 @@ class PlayerForm(forms.ModelForm):
     class Meta():
         model=Player
         fields='__all__'
-        # widgets={
-        #     "title":forms.TextInput(attrs={"class":"textinputclass"}),
-        #     "text":forms.Textarea(attrs={"class":"editable postcontent"})
-        # }
+        widgets={
+            "player_name":forms.TextInput(attrs={"class":"formcontrol"}),
+            # "text":forms.Textarea(attrs={"class":"editable postcontent"})
+        }

@@ -9,8 +9,8 @@ from django.conf import settings
 urlpatterns = [
     path(r'login/',auth.login,name="login"),
     path(r"logout/",auth.logout,name="logout"),
-    path(r'theplayers/',views.PlayerList.as_view(),name="player_list"),
-    url(r'^player/new',views.CreatePlayer.as_view(),name="player_create"),
+    path(r'theplayers/',views.PlayerList,name="player_list"),
+    url(r'^player/new',views.PlayerUpload,name="player_create"),
     url(r'player/(?P<pk>\d+)/$',views.PlayerDetail.as_view(),name="player_detail"),
     url(r'edit/(?P<pk>\d+)/$',views.PlayerUpdateView.as_view(),name="player_edit"),
     url(r'^player/delete/(?P<pk>\d+)/$',views.PlayerDeleteView.as_view(),name="delete"),

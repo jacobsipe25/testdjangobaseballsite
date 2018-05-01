@@ -1,13 +1,15 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate
 from django.contrib.auth.forms import UserCreationForm
-from baseballapp.models import Player
+from baseballapp.models import *
 from django.views.generic import ListView, CreateView, DetailView,DeleteView,UpdateView
 from baseballapp.forms import PlayerForm
 from django.urls import reverse,reverse_lazy
 import logging
 from django.contrib import messages
-# Create your views here.
+# Create your views here
+# class TeamList(ListView):
+#     model=Team
 def home(request):
     return render(request,"base.html")
 def signup(request):
@@ -23,12 +25,38 @@ def signup(request):
     else:
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
-class PlayerList(ListView):
-    model=Player
-class CreatePlayer(CreateView):
-    redirect_field_name="baseballapp/player_detail.html"
-    form_class=PlayerForm
-    model=Player
+def PlayerUpload(request):
+    if request.method=="POST":
+        form=PlayerForm(request.POST,request.FILES)
+        if form.is_valid():
+            newstuff=form.save(commit=False)
+            newstuff.imgfile=request.FILES["imgfile"]
+            newstuff.save()
+            # newimage=Player(,player_name)
+
+
+            return redirect(reverse("player_list"))
+    else:
+        form=PlayerForm()
+    return render(request,"baseballapp/player_form.html",{"form":form})
+def PlayerList(request):
+        player_list=Player.objects.all()
+        #render takes request, aka get or post, template, context which is a dict
+        #of params you pass and call by key
+        return render(request,"baseballapp/player_list.html",{"player_list":player_list})
+# class PlayerCreate(CreateView):
+#     model=Player
+#     form_class=PlayerForm
+#     redirect_field_name="baseballapp/player_detail.html"
+# def PlayerUpload(request):
+#     if request.method=="POST":
+#         form=PlayerForm(request.POST,request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("player_list")
+#     else:
+#         form=PlayerForm()
+#     return render(request,"baseballapp/player_form.html",{"form":form})
 class PlayerDetail(DetailView):
     model=Player
 class PlayerUpdateView(UpdateView):
