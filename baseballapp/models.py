@@ -1,7 +1,10 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.urls import reverse
-
+from django.dispatch import receiver
+from django.db.models.signals import post_save
+from django.db.models import OneToOneField
+from django.conf import settings
 # from model import CsvModel didn't work
 class Player(models.Model):
     player_name=models.TextField(max_length=200,help_text="Player's Name")
@@ -26,19 +29,22 @@ class Player(models.Model):
     def __str__(self):
         return self.player_name
 class Team(models.Model):
+    user_team_id=models.CharField(max_length=20)
     team_name=models.CharField(max_length=200)
-    logo=models.ImageField(upload_to="teams/",blank=True,default="teams/noteam.jpg")
-    user_team=User.username
+    logo=models.ImageField(upload_to="teams/",blank=True,null=True,default="teams/noteam.jpg")
+    user_team=models.CharField(max_length=100)
     players=models.ManyToManyField(Player)
     def __str__(self):
         return self.team_name
     def get_absolute_url(self):
          return reverse("team_detail",kwargs={"pk":self.pk})
-    def __str__(self):
-         return self.team_name
+# @receiver(post_save, sender=User) #only passed by the user model
+# def ensure_profile_exists(sender, **kwargs):
+#     if kwargs.get('created', False):
+#         Team.objects.get_or_create(team_name=kwargs.get('instance'))
 
 class Game(models.Model):
-    location=models.CharField(max_length=200)
+    location=models.CharField(max_length=200,default="0")
     yourteam=models.ForeignKey(Team,on_delete=models.CASCADE,related_name="home")
     opponent=models.ForeignKey(Team,on_delete=models.CASCADE,related_name="away")
     date=models.DateField()

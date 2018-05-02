@@ -26,16 +26,17 @@ def signup(request):
         form = UserCreationForm()
     return render(request, 'signup.html', {'form': form})
 def TeamList(request):
-        player_list=Team.objects.all()
+        team_list=Team.objects.all()
         #render takes request, aka get or post, template, context which is a dict
         #of params you pass and call by key
         return render(request,"baseballapp/team_list.html",{"team_list":team_list})
 def TeamUpload(request):
     if request.method=="POST":
-        form=PlayerForm(request.POST,request.FILES)
+        form=TeamForm(request.POST,request.FILES)
         if form.is_valid():
             newstuff=form.save(commit=False)
-            newstuff.logo=request.FILES["logo"]
+            newstuff.logo=request.FILES.get("logo","teams/noteam.jpg")
+            instance.user=request.user
             newstuff.save()
             # newimage=Player(,player_name)
 
@@ -49,7 +50,7 @@ def PlayerUpload(request):
         form=PlayerForm(request.POST,request.FILES)
         if form.is_valid():
             newstuff=form.save(commit=False)
-            newstuff.imgfile=request.FILES["imgfile"]
+            newstuff.imgfile=request.FILES.get("imgfile","sample/noimage.png")
             newstuff.save()
             # newimage=Player(,player_name)
 

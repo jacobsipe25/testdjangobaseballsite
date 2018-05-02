@@ -17,7 +17,7 @@ urlpatterns = [
     url(r'^upload/csv/$', views.upload_csv, name='upload_csv'),
     url(r'team/(?P<pk>\d+)/$',views.TeamDetail.as_view(),name="team_detail"),
     url(r'^team/new',views.TeamUpload,name="team_create"),
-    url(r'theteams/',views.TeamList,name="team_list"),
+    url(r'^theteams/',views.TeamList,name="team_list"),
 
 
 ]

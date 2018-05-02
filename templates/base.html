@@ -47,11 +47,22 @@
         <ul class="dropdown-menu">
         <li><a href="{% url "team_list" %}">All Teams</a></li>
         {% if user.is_authenticated %}
-        <li><a href="{% url "team_create" %}">Create a Player</a></li>
+        <li><a href="{% url "team_create" %}">Create a Team</a></li>
                         {% endif %}
     </ul>
   </li>
 </ul>
+<ul class="navbar-nav nav navbar-right">
+  {% if user.is_authenticated %}
+  <li><a href="{% url "logout"}"> Logout </a> </li>
+  <li><a href="#"> Welcome: {{user.username}} </a></li>
+
+  {% else %}
+  <li><a class="nav navbar-right" href="{% url "login" %}"> Login
+    <span class="glyphicon glyphicon-user"></span>
+  </a></li>
+</ul>
+{% endif%}
     </div>
   </nav>
 
