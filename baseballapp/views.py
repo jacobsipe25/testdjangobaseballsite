@@ -1,12 +1,13 @@
 from django.shortcuts import render,redirect
 from django.contrib.auth import login,authenticate
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm,PasswordChangeForm
 from baseballapp.models import *
 from django.views.generic import ListView, CreateView, DetailView,DeleteView,UpdateView
-from baseballapp.forms import PlayerForm,TeamForm
+from baseballapp.forms import *
 from django.urls import reverse,reverse_lazy
 import logging
 from django.contrib import messages
+from django.contrib.auth import update_session_auth_hash
 # Create your views here
 # class TeamList(ListView):
 #     model=Team
@@ -14,16 +15,13 @@ def home(request):
     return render(request,"base.html")
 def signup(request):
     if request.method=="POST":
-        form=UserCreationForm(request.POST)
+        form=RegistrationForm(request.POST)
         if form.is_valid():
             form.save()
-            username = form.cleaned_data.get('username')
-            raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('home')
+            return redirect(reverse("login"))
     else:
-        form = UserCreationForm()
+        form = RegistrationForm()
+
     return render(request, 'signup.html', {'form': form})
 def TeamList(request):
         player_list=Team.objects.all()
@@ -150,3 +148,39 @@ def upload_csv(request):
 #     fields=Player._meta.get_field("team").choices
 #     return fields
 # print (printthechoices())
+
+def view_profile(request, pk=None):
+    if pk:
+        user = User.objects.get(pk=pk)
+    else:
+        user = request.user
+    args = {'user': user}
+    return render(request, 'registration/profile.html', args)
+
+def edit_profile(request):
+    if request.method == 'POST':
+        form = EditProfileForm(request.POST, instance=request.user)
+
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('view_profile'))
+    else:
+        form = EditProfileForm(instance=request.user)
+        args = {'form': form}
+        return render(request, 'registration/edit_profile.html', args)
+
+def change_password(request):
+    if request.method == 'POST':
+        form = PasswordChangeForm(data=request.POST, user=request.user)
+
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return redirect(reverse('view_profile'))
+        else:
+            return redirect(reverse('change_password'))
+    else:
+        form = PasswordChangeForm(user=request.user)
+
+        args = {'form': form}
+        return render(request, 'registration/change_password.html', args)

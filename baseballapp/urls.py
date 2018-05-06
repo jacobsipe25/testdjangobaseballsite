@@ -18,7 +18,13 @@ urlpatterns = [
     url(r'team/(?P<pk>\d+)/$',views.TeamDetail.as_view(),name="team_detail"),
     url(r'^team/new',views.TeamUpload,name="team_create"),
     url(r'theteams/',views.TeamList,name="team_list"),
-
+    url(r'^profile/$', views.view_profile, name='view_profile'),
+    url(r'^profile/(?P<pk>\d+)/$', views.view_profile, name='view_profile_with_pk'),
+    url(r'^password_rest/$',auth.password_reset,name="password_reset"),
+    url(r'^password_reset/done/$',auth.password_reset_done,name="password_reset_done"),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
+        auth.password_reset_confirm, name='password_reset_confirm'),
+    url(r'^reset/done/$', auth.password_reset_complete, name='password_reset_complete'),
 
 ]
 

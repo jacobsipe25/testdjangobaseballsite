@@ -4,7 +4,7 @@
 <html lang="en" dir="ltr">
   <head>
     <meta charset="utf-8">
-        <title>Blog Project</title>
+        <title>{% block head %}{% endblock %}</title>
         <!-- Latest compiled and minified CSS -->
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
@@ -32,28 +32,27 @@
       <a class="navbar-brand" href="{% url "home"%}"> Baseball Stats</a>
     </div>
     <ul class="nav navbar-nav">
-    <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">  Players <span class="caret"></span></a>
-      <ul class="dropdown-menu">
-        <li><a href="{% url "player_list" %}">All Players</a></li>
-          {% if user.is_authenticated %}
-        <li><a href="{% url "player_create" %}">Create a Player</a></li>
-        <li><a  href="{% url "upload_csv" %}">Upload CSV File</a></li>
-              {% endif %}
-            </ul>
-          </li>
-      <li class="dropdown">
-      <a class="dropdown-toggle" data-toggle="dropdown" href="#">  Teams <span class="caret"></span></a>
-        <ul class="dropdown-menu">
-        <li><a href="{% url "team_list" %}">All Teams</a></li>
-        {% if user.is_authenticated %}
-        <li><a href="{% url "team_create" %}">Create a Player</a></li>
-                        {% endif %}
+      <li><a href="{% url "player_list" %}">Player List</a></li>
+      {% if user.is_authenticated %}
+      <li><a href="{% url "player_create" %}">Create A Player</a></li>
+      <li>
+<a href="{% url "upload_csv" %}">Upload CSV File</a>
+      </li>
+      {% endif %}
     </ul>
-  </li>
-</ul>
-    </div>
-  </nav>
+    <ul class="nav navbar-nav navbar-right">
+
+      {% if user.is_authenticated %}
+      <li><a href="{% url "view_profile_with_pk" user.pk %}"> Hello {{user.username}} </a></li>
+      <li><a href="{% url "logout" %}"><span class="glyphicon glyphicon-log-in"></span> Logout</a></li>
+      {% else %}
+      <li><a href="{% url "signup" %}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="{% url "login" %}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
+
 
 
 
