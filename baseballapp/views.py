@@ -8,9 +8,32 @@ from django.urls import reverse,reverse_lazy
 import logging
 from django.contrib import messages
 from django.contrib.auth import update_session_auth_hash
+from django.core.mail import send_mail
+from django.template.loader import render_to_string
+from baseballstatsproj.settings import EMAIL_HOST_USER
 # Create your views here
 # class TeamList(ListView):
 #     model=Team
+
+def emailthemboys(request):
+    if request.method=="POST":
+        form=ContactForm(request.POST)
+        if form.is_valid():
+            global name
+            name=request.POST["contact_name"]
+            contact=request.POST["contact_address"]
+            message=request.POST["message"]
+            msg_tmp=render_to_string("email.txt",{"name":name,"contact":contact,"message":message})
+
+            send_mail("New message from: "+str(name),msg_tmp,contact,[EMAIL_HOST_USER],fail_silently=False)
+            send_mail("Thanks for contacting us: "+str(name),"We will be back with you ASAP.",EMAIL_HOST_USER,[contact],fail_silently=False)
+            return redirect("contact_sucess")
+    else:
+        form=ContactForm()
+    return render(request,"contact.html",{"form":form})
+def success_contact(request):
+    return render(request,"success.html",{"user":name})
+
 def home(request):
     return render(request,"base.html")
 def signup(request):

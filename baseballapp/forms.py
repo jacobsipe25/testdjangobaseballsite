@@ -3,6 +3,15 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from baseballapp.models import Player,Team
 
+class ContactForm(forms.Form):
+    contact_address=forms.EmailField(required=True,)
+    contact_name=forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={"class":"formcontrol"}))
+    message=forms.CharField(max_length=500,widget=forms.Textarea)
+
+
+
+
+
 class PlayerForm(forms.ModelForm):
     class Meta():
         model=Player

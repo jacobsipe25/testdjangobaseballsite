@@ -25,7 +25,8 @@ urlpatterns = [
     url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
         auth.password_reset_confirm, name='password_reset_confirm'),
     url(r'^reset/done/$', auth.password_reset_complete, name='password_reset_complete'),
-
+    url(r'^contact/$',views.emailthemboys,name="contact_us"),
+    url(r'^success_contact/$',views.success_contact,name="contact_sucess")
 ]
 
 urlpatterns+=static(settings.STATIC_URL,document_root=settings.STATIC_ROOT )
