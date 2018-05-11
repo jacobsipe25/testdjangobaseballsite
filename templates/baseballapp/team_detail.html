@@ -9,7 +9,13 @@
     </tr>
      <tr>
        <td>{{team.team_name}}</td>
-       <td>{{team.players}}</td>
+       <td>
+         {% for p in team.players.all %}
+         <li>
+           <a href="{% url "player_detail" p.id %}">{{p}}</a>
+         </li>
+         {% endfor %}
+         </td>
        <td>
          <img style="width:50px;height:50px;border-radius:50px;"src="{{team.logo.url}}"></td>
 
