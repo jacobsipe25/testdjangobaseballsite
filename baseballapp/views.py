@@ -24,7 +24,6 @@ def emailthemboys(request):
             contact=request.POST["contact_address"]
             message=request.POST["message"]
             msg_tmp=render_to_string("email.txt",{"name":name,"contact":contact,"message":message})
-
             send_mail("New message from: "+str(name),msg_tmp,contact,[EMAIL_HOST_USER],fail_silently=False)
             send_mail("Thanks for contacting us: "+str(name),"We will be back with you ASAP.",EMAIL_HOST_USER,[contact],fail_silently=False)
             return redirect("contact_sucess")
@@ -47,24 +46,38 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form})
 def TeamList(request):
-        player_list=Team.objects.all()
+        team_list=Team.objects.all()
+        first=[]
+        for team in team_list:
+            second=[]
+            first.append(second)
+            for player in team.players.all():
+                second.append(team)
+                second.append(player)
+
+        print (first)
         #render takes request, aka get or post, template, context which is a dict
         #of params you pass and call by key
-        return render(request,"baseballapp/team_list.html",{"team_list":team_list})
+        return render(request,"baseballapp/team_list.html",{"team_list":team_list,"first":first})
 def TeamUpload(request):
     if request.method=="POST":
-        form=PlayerForm(request.POST,request.FILES)
-        if form.is_valid():
-            newstuff=form.save(commit=False)
-            newstuff.logo=request.FILES["logo"]
-            newstuff.save()
-            # newimage=Player(,player_name)
-
-
-            return redirect(reverse("team_list"))
+        form=TeamForm(request.POST,request.FILES)
+        if form.is_valid:
+            name=form.save(commit=True)
+            name.save()
+            print (request.files["players"])
+            for player in request.files["players"]:
+                try:
+                    p1=player.objects.get(player_name=str(player))
+                    print (p1)
+                    name.players.add(p1)
+                    print (name.players.all())
+                except:
+                        continue
+        return redirect(reverse("home"))
     else:
         form=TeamForm()
-    return render(request,"baseballapp/player_form.html",{"form":form})
+    return render(request,"baseballapp/team_form.html",{"form":form})
 def PlayerUpload(request):
     if request.method=="POST":
         form=PlayerForm(request.POST,request.FILES)
@@ -72,6 +85,7 @@ def PlayerUpload(request):
             newstuff=form.save(commit=False)
             newstuff.imgfile=request.FILES["imgfile"]
             newstuff.save()
+
             # newimage=Player(,player_name)
 
 

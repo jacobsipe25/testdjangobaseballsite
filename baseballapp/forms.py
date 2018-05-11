@@ -4,12 +4,9 @@ from django.contrib.auth.forms import UserCreationForm,UserChangeForm
 from baseballapp.models import Player,Team
 
 class ContactForm(forms.Form):
-    contact_address=forms.EmailField(required=True,)
+    contact_address=forms.EmailField(required=True,widget=forms.TextInput(attrs={"class":"form-control"}))
     contact_name=forms.CharField(required=True,max_length=50,widget=forms.TextInput(attrs={"class":"formcontrol"}))
     message=forms.CharField(max_length=500,widget=forms.Textarea)
-
-
-
 
 
 class PlayerForm(forms.ModelForm):
@@ -23,7 +20,7 @@ class PlayerForm(forms.ModelForm):
 class TeamForm(forms.ModelForm):
     class Meta():
         model=Team
-        fields=("team_name","logo","players")
+        fields=("team_name","players")
         widgets={
             "team_name":forms.TextInput(attrs={"class":"formcontrol"}),
             # "text":forms.Textarea(attrs={"class":"editable postcontent"})
