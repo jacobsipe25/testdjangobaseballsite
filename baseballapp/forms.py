@@ -20,7 +20,7 @@ class PlayerForm(forms.ModelForm):
 class TeamForm(forms.ModelForm):
     class Meta():
         model=Team
-        fields=("team_name","players")
+        fields=("team_name","players","logo")
         widgets={
             "team_name":forms.TextInput(attrs={"class":"formcontrol"}),
             # "text":forms.Textarea(attrs={"class":"editable postcontent"})

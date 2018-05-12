@@ -46,7 +46,7 @@ def signup(request):
 
     return render(request, 'signup.html', {'form': form})
 def TeamList(request):
-        team_list=Team.objects.all()
+        team_list=Team.objects.filter(user=request.user.id)
         first=[]
         for team in team_list:
             second=[]
@@ -64,17 +64,19 @@ def TeamUpload(request):
         form=TeamForm(request.POST,request.FILES)
         if form.is_valid:
             name=form.save(commit=True)
+            name.logo=request.FILES["logo"]
+            name.user=request.user()
             name.save()
-            print (request.files["players"])
-            for player in request.files["players"]:
-                try:
-                    p1=player.objects.get(player_name=str(player))
-                    print (p1)
-                    name.players.add(p1)
-                    print (name.players.all())
-                except:
-                        continue
-        return redirect(reverse("home"))
+            # print (request.FILES["players"])
+            # for player in request.FILES["players"]:
+            #     try:
+            #         p1=player.objects.get(player_name=str(player))
+            #         print (p1)
+            #         name.players.add(p1)
+            #         print (name.players.all())
+            #     except:
+            #             continue
+        return redirect(reverse("team_list"))
     else:
         form=TeamForm()
     return render(request,"baseballapp/team_form.html",{"form":form})
